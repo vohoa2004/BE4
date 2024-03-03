@@ -1,7 +1,6 @@
 import jwt = require("jsonwebtoken");
 import { NextFunction, Request, Response } from "express";
 import { AuthService } from "../services/auth.service";
-import { AccountService } from "../services/account.service";
 
 export async function authentication(authService: AuthService) {
     return async function (req: Request, res: Response, next: NextFunction) {
@@ -14,7 +13,7 @@ export async function authentication(authService: AuthService) {
             const accessToken = authorizationHeader.split(" ")[1];
 
             // Verify access token bằng authService
-            const account = await authService.verifyAccessToken(accessToken);
+            const account = await AuthService.verifyAccessToken(accessToken);
             if (!account) return res.status(401).json({ message: "Unauthorized: Invalid token" });
 
             req["currentUser"] = account;

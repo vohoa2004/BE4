@@ -14,12 +14,8 @@ class HttpException extends Error {
 }
 
 export class AuthService {
-    constructor(
-        private readonly accountService: AccountService
-    ) { }
-
-    async loginWithUsernameAndPassword(dto: AccountDTO) {
-        const account = await this.accountService.findByUsername(dto.username);
+    static async loginWithUsernameAndPassword(dto: AccountDTO) {
+        const account = await AccountService.findByUsername(dto.username);
         // Verify password with RSA-SHA256
         if (!encrypt.verifySomething(dto.password, account.password)) {
             throw new HttpException("Incorrect password!", 401);
@@ -27,11 +23,11 @@ export class AuthService {
         return { accessToken: encrypt.signJwt(account.id) };
     }
 
-    async verifyAccessToken(accessToken: string) {
+    static async verifyAccessToken(accessToken: string) {
         let account: Account = null;
         try {
             const accountId = encrypt.verifyJwt(accessToken);
-            account = await this.accountService.findById(accountId);
+            account = await AccountService.findById(accountId);
         } catch (err) {
             if (!(err == JsonWebTokenError || err == HttpException)) {
                 console.log(err);

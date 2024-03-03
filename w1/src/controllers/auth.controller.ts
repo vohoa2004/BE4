@@ -14,7 +14,7 @@ export class AuthController {
             if (!dto.username || !dto.password) {
                 return res.status(400).json({ message: "Username and password are required" });
             }
-            const { accessToken } = await this.authService.loginWithUsernameAndPassword(dto);
+            const { accessToken } = await AuthService.loginWithUsernameAndPassword(dto);
             return res.status(200).json({ message: "Login successful", accessToken });
         } catch (error) {
             console.error(error);
