@@ -6,4 +6,4 @@ tmp/
 temp/
 .env
 src/migrations
-keys
+keys/
