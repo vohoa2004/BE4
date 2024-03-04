@@ -20,7 +20,7 @@ export class AccountService {
         return account;
     }
 
-    async findByUsername(username: string) {
+    static async findByUsername(username: string) {
         const accountRepository = datasource.getRepository(Account);
         const account = await accountRepository.findOne({ where: { username: username } });
         if (!account) {
@@ -29,7 +29,7 @@ export class AccountService {
         return account;
     }
 
-    async findById(accountId: string) {
+    static async findById(accountId: string) {
         const accountRepository = datasource.getRepository(Account);
         const account = await accountRepository.findOne({ where: { id: accountId } });
         if (!account) {
